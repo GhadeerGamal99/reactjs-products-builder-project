@@ -9,17 +9,17 @@ import type { IProduct } from "./interfaces"
 const App = () => {
   /* ___________STATE___________*/
   const [isOpen, setIsOpen] = useState(false)
- const [product,setProduct]=useState<IProduct>({
-title:'',
-description:'',
-price:'',
-imageURL:'', 
- colors: [],
-  category: {
-    name: '',
+  const [product, setProduct] = useState<IProduct>({
+    title: '',
+    description: '',
+    price: '',
     imageURL: '',
-  } 
- })
+    colors: [],
+    category: {
+      name: '',
+      imageURL: '',
+    }
+  })
 
   /* ___________RENDER___________*/
 
@@ -31,17 +31,17 @@ imageURL:'',
     setIsOpen(false)
   }
 
-  const onChangeHandler=(event:ChangeEvent<HTMLInputElement>)=>{
+  const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
 
-    const {name,value}=event.target;
-    setProduct({...product,[name]:value})
+    const { name, value } = event.target;
+    setProduct({ ...product, [name]: value })
   }
 
   const renderProductList = productList.map(product => <ProductCard product={product} key={product.id} />)
   const renderFormInputList = formInputsList.map(input =>
     <div className="flex flex-col">
       <label className="text-sm font-medium mb text-gray-700" htmlFor={input.id}>{input.label}</label>
-      <Input type="text" name={input.name} id={input.id} value={''} onChange={onChangeHandler}/>
+      <Input type="text" name={input.name} id={input.id} value={product[input.name]} onChange={onChangeHandler} />
     </div>)
 
   return (
