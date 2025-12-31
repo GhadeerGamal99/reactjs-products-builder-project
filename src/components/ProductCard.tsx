@@ -10,7 +10,7 @@ const ProductCard = ({ product }: IProps) => {
     const { title, description, imageURL, price, category } = product;
     return (
         <div className="max-w-sm md:max-w-lg mx-auto md:mx-0 border rounded-md p-2 flex flex-col space-y-3">
-            <Image className="rounded-md h-52 w-full lg:object-cover" imageURL={imageURL} alt="product image"></Image>
+            <Image className="rounded-md h-52 w-full lg:object-cover" imageURL={imageURL} alt="product image"/>
               <h3 className="text-md font-semibold">{txtSlicer(title, 20)}</h3>
       <p className="text-sm text-gray-500 wrap-break-words">{txtSlicer(description)}</p>
 
