@@ -2,34 +2,55 @@ import type { IProduct } from "../interfaces"
 import { txtSlicer } from "../utils/functions"
 import Image from "./Image"
 import Button from "./ui/Button"
+import CircleColor from "./ui/CircleColor"
 
 interface IProps {
-    product: IProduct
+    product: IProduct;
+    setProductToEdit: (product: IProduct) => void;
+    openEditModal: () => void;
+    openConfirmModal:() => void;
+    idx: number;
+    setProductToEditIdx: (value: number) => void
+
 }
-const ProductCard = ({ product }: IProps) => {
-    const { title, description, imageURL, price, category } = product;
+
+const ProductCard = ({ product, setProductToEdit, openEditModal,openConfirmModal, idx, setProductToEditIdx }: IProps) => {
+    const { title, description, imageURL, price, category, colors } = product;
+    /* ___________RENDER___________*/
+    const renderProductColors = colors.map(color =>
+        <CircleColor key={color} color={color} />
+    )
+    /* ___________HANDLER___________*/
+    const onEdit = () => {
+        setProductToEdit(product);
+        openEditModal();
+        setProductToEditIdx(idx)
+    }
+    const onRemove = () => {
+        setProductToEdit(product);
+        openConfirmModal();
+
+    }
     return (
         <div className="max-w-sm md:max-w-lg mx-auto md:mx-0 border rounded-md p-2 flex flex-col space-y-3">
-            <Image className="rounded-md h-52 w-full lg:object-cover" imageURL={imageURL} alt="product image"/>
-              <h3 className="text-md font-semibold">{txtSlicer(title, 20)}</h3>
-      <p className="text-sm text-gray-500 wrap-break-words">{txtSlicer(description)}</p>
+            <Image className="rounded-md h-52 w-full lg:object-cover" imageURL={imageURL} alt="product image" />
+            <h3 className="text-md font-semibold">{txtSlicer(title, 20)}</h3>
+            <p className="text-sm text-gray-500 wrap-break-words">{txtSlicer(description)}</p>
 
             <div className="flex items-center flex-wrap space-x-1">
-                <span className="w-5 h-5 rounded-full bg-indigo-600 cursor-pointer" />
-                <span className="w-5 h-5 rounded-full bg-red-600 cursor-pointer" />
-                <span className="w-5 h-5 rounded-full bg-yellow-600 cursor-pointer" />
+                {renderProductColors}
             </div>
 
             <div className="flex items-center justify-between">
-                    <span className="text-lg text-indigo-600 font-semibold"> $ {price}</span>
+                <span className="text-lg text-indigo-600 font-semibold"> $ {price}</span>
                 <div className="flex items-center space-x-2">
-                          <span className="text-xs font-semibold">{category.name}</span>
+                    <span className="text-xs font-semibold">{category.name}</span>
                     <Image className="w-10 h-10 rounded-full object-cover" imageURL={category.imageURL} alt={category.name} />
                 </div>
             </div>
             <div className="flex items-center justify-between space-x-2">
-                <Button className="bg-indigo-700">EDIT</Button>
-                <Button className="bg-red-700">DELETE</Button>
+                <Button className="bg-indigo-700" onClick={onEdit}>EDIT</Button>
+                <Button className="bg-red-700" onClick={onRemove}>DELETE</Button>
 
             </div>
 
