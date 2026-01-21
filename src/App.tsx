@@ -40,7 +40,7 @@ const App = () => {
   const [product, setProduct] = useState<IProduct>(defaultProductObj);
   const [tempColors, setTempColors] = useState<string[]>([]);
   const [selectedCategory, setSelectedCategory] = useState(categories[0]);
-  const [productToEdit, setProductToEdit] =useState<IProduct>(defaultProductObj);
+  const [productToEdit, setProductToEdit] = useState<IProduct>(defaultProductObj);
   const [productToEditIdx, setProductToEditIdx] = useState<number>(0);
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false);
   /* ___________HANDLER___________*/
@@ -59,7 +59,7 @@ const App = () => {
   function closeEditModal() {
     setIsOpenEditModal(false);
   }
-  const closeConfirmModal=() => setIsOpenConfirmModal(false);
+  const closeConfirmModal = () => setIsOpenConfirmModal(false);
   const openConfirmModal = () => setIsOpenConfirmModal(true);
 
   const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -79,12 +79,18 @@ const App = () => {
     setIsOpenEditModal(false);
   };
 
-  const removeProductHandler=()=>{
-    
- const filtered=products.filter(item=>item.id !== productToEdit.id)
- setProducts(filtered)
- closeConfirmModal();
- toast("deleted")
+  const removeProductHandler = () => {
+
+    const filtered = products.filter(item => item.id !== productToEdit.id)
+    setProducts(filtered)
+    closeConfirmModal();
+    toast("Product has been deleted successfully!", {
+      icon: "👏",
+      style: {
+        backgroundColor: "#c2344d",
+        color: "white",
+      },
+    });
   }
   const onSubmitHandler = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
@@ -116,6 +122,13 @@ const App = () => {
     setProduct(defaultProductObj);
     setTempColors([]);
     close();
+        toast("Product has been added successfully!", {
+      icon: "👏",
+      style: {
+        backgroundColor: "black",
+        color: "white",
+      },
+    });
   };
   const onSubmitEditHandler = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
@@ -140,12 +153,20 @@ const App = () => {
     }
 
     const updatedProducts = [...products];
-    updatedProducts[productToEditIdx] = {...productToEdit,colors:tempColors.concat(productToEdit.colors)};
+    updatedProducts[productToEditIdx] = { ...productToEdit, colors: tempColors.concat(productToEdit.colors) };
     setProducts(updatedProducts);
 
     setProductToEdit(defaultProductObj);
     setTempColors([]);
     closeEditModal();
+     toast("Product has been updated successfully!", {
+      icon: "👏",
+      style: {
+        backgroundColor: "black",
+        color: "white",
+      },
+    });
+
   };
 
   /* ___________RENDER___________*/
@@ -221,8 +242,8 @@ const App = () => {
   };
 
   return (
-    <main className="mx-auto max-w-5xl px-4">
-      <Button className="bg-red-700" onClick={open}>
+    <main className="mx-auto w-auto px-4">
+      <Button className="block bg-indigo-700 w-sm hover:bg-indigo-800 mx-auto my-10 px-10 font-medium" onClick={open}>
         OPEN MODAL
       </Button>
 
@@ -245,11 +266,11 @@ const App = () => {
 
             <ErrorMessage msg={errors.colorsList} />
           </div>
-          <div className="flex items-center flex-wrap space-x-1">
+          <div className="flex items-center flex-wrap space-x-1 mb-2">
             {tempColors.map((color) => (
               <span
                 key={color}
-                className="mb p-1 mrr-1 text-sm text-white rounded-md"
+                className="mb p-1 mrr-1 mb-2 text-sm text-white rounded-md"
                 style={{ background: color }}
               >
                 {color}
@@ -292,9 +313,9 @@ const App = () => {
           {renderProductEditWithErrorMsg("price", "Product Price", "price")}
 
 
-     <Select
+          <Select
             selected={productToEdit.category}
-            setSelected={(value)=>{setProductToEdit({...productToEdit,category:value})}}
+            setSelected={(value) => { setProductToEdit({ ...productToEdit, category: value }) }}
           />
 
           <div className="flex items-center flex-wrap space-x-1">
@@ -304,7 +325,7 @@ const App = () => {
             {tempColors.concat(productToEdit.colors).map((color) => (
               <span
                 key={color}
-                className="mb p-1 mrr-1 text-sm text-white rounded-md"
+                className="mb p-1 mrr-1 text-sm mb-2 text-white rounded-md"
                 style={{ background: color }}
               >
                 {color}
@@ -324,7 +345,7 @@ const App = () => {
           </div>
         </form>
       </Modal>
-      
+
       {/* DELETE PRODUCT CONFIRM MODAL */}
       <Modal
         isOpen={isOpenConfirmModal}
